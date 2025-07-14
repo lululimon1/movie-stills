@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie Spines</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+    }
+
+    .spine-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spine {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      height: 80px;
+      color: white;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+      position: relative;
+    }
+
+    .spine:hover {
+      opacity: 0.95;
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    /* Cursor-following thumbnail */
+    .thumb-preview {
+      position: fixed;
+      pointer-events: none;
+      width: 160px;
+      height: auto;
+      z-index: 9999;
+      display: none;
+      border-radius: 6px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Floating overlay menu */
+    .overlay-menu {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+
+    .overlay-menu a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+
+    .overlay-menu a:hover {
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="spine-container">
+    <!-- Spine with your local image -->
+    <a href="in-the-mood-for-love.html" class="spine" data-thumb="images/1.jpeg" style="background: #1644B6">
+      <span class="title">In the Mood for Love</span>
+    </a>
+
+    <!-- Other spines (you can update or remove) -->
+    <a href="about:blank" class="spine" style="background: #F6BFD0">
+      <span class="title">Tadanori Yokoo: Complete Book Designs</span>
+    </a>
+    <a href="about:blank" class="spine" style="background: #117B24">
+      <span class="title">Elements of Euclid</span>
+    </a>
+    <a href="about:blank" class="spine" style="background: #FA2E00">
+      <span class="title">An Alphabetical Book About Nokia Pure</span>
+    </a>
+  </div>
+
+  <!-- Overlay menu -->
+  <div class="overlay-menu">
+    <a href="index.html">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <!-- Floating thumbnail image -->
+  <img id="thumbPreview" class="thumb-preview" src="" alt="Preview" />
+
+  <!-- Script to follow cursor with thumbnail -->
+  <script>
+    const thumb = document.getElementById('thumbPreview');
+    const spines = document.querySelectorAll('.spine');
+
+    spines.forEach(spine => {
+      spine.addEventListener('mouseenter', () => {
+        const src = spine.getAttribute('data-thumb');
+        if (src) {
+          thumb.src = src;
+          thumb.style.display = 'block';
+        }
+      });
+
+      spine.addEventListener('mouseleave', () => {
+        thumb.style.display = 'none';
+      });
+
+      spine.addEventListener('mousemove', e => {
+        thumb.style.left = e.pageX + 20 + 'px';
+        thumb.style.top = e.pageY + 20 + 'px';
+      });
+    });
+  </script>
+</body>
+</html>
